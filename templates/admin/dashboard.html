@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="admin-dashboard-body">
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-nav">
+            <div class="admin-brand">
+                <h1><i class="fas fa-cogs"></i> Portfolio Admin Dashboard</h1>
+                <span class="admin-subtitle">Manage your portfolio content</span>
+            </div>
+            <div class="admin-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-outline" target="_blank">
+                    <i class="fas fa-eye"></i> View Portfolio
+                </a>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Admin Content -->
+    <main class="admin-main">
+        <!-- Sidebar Navigation -->
+        <nav class="admin-sidebar">
+            <div class="sidebar-section">
+                <h3>Content Management</h3>
+                <ul class="sidebar-nav">
+                    <li>
+                        <a href="#profile" class="nav-item active" data-tab="profile">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#experience" class="nav-item" data-tab="experience">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Experience</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#education" class="nav-item" data-tab="education">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Education</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="nav-item" data-tab="projects">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#achievements" class="nav-item" data-tab="achievements">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#technologies" class="nav-item" data-tab="technologies">
+                            <i class="fas fa-code"></i>
+                            <span>Technologies</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="btn btn-success btn-block" onclick="saveAllChanges()">
+                        <i class="fas fa-save"></i> Save All Changes
+                    </button>
+                    <button class="btn btn-primary btn-block" onclick="refreshData()">
+                        <i class="fas fa-sync"></i> Refresh Data
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="admin-content">
+            <!-- Success/Error Messages -->
+            <div id="messageContainer"></div>
+
+            <!-- Profile Tab -->
+            <div id="profile" class="tab-content active">
+                <div class="tab-header">
+                    <h2><i class="fas fa-user-edit"></i> Profile Management</h2>
+                    <p>Update your personal information and profile details</p>
+                </div>
+                
+                <form id="profileForm" class="admin-form">
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" value="{{ profile.name if profile else '' }}" required>
+                                <small>This will be displayed in the copyright section</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="title">Professional Title *</label>
+                                <input type="text" id="title" name="title" value="{{ profile.title if profile else '' }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Department *</label>
+                                <input type="text" id="department" name="department" value="{{ profile.department if profile else '' }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" value="{{ profile.email if profile else '' }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" value="{{ profile.phone if profile else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" id="location" name="location" value="{{ profile.location if profile else '' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Bio & Description</h3>
+                        <div class="form-group">
+                            <label for="bio">Professional Bio *</label>
+                            <textarea id="bio" name="bio" rows="6" required placeholder="Write about your professional background, skills, and experience...">{{ profile.bio if profile else '' }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Files & Media</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="profile_picture">Profile Picture</label>
+                                <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                                <small>Recommended: 400x400px, JPG or PNG</small>
+                                {% if profile and profile.profile_picture %}
+                                <div class="current-file">
+                                    <i class="fas fa-image"></i> Current: {{ profile.profile_picture }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="resume">Resume/CV</label>
+                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+                                <small>PDF, DOC, or DOCX files</small>
+                                {% if profile and profile.resume %}
+                                <div class="current-file">
+                                    <i class="fas fa-file"></i> Current: {{ profile.resume }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success btn-large">
+                            <i class="fas fa-check"></i> Update Profile
+                        </button>
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-undo"></i> Reset Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Experience Tab -->
+            <div id="experience" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-briefcase"></i> Experience Management</h2>
+                    <p>Manage your work experience and professional history</p>
+                    <button class="btn btn-primary" onclick="openExperienceModal()">
+                        <i class="fas fa-plus"></i> Add New Experience
+                    </button>
+                </div>
+                
+                <div class="items-list" id="experienceList">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading experiences...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Tab -->
+            <div id="education" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Education Management</h2>
+                    <p>Manage your educational background and qualifications</p>
+                    <button class="btn btn-primary" onclick="openEducationModal()">
+                        <i class="fas fa-plus"></i> Add New Education
+                    </button>
+                </div>
+                
+                <div class="items-list" id="educationList">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading education...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div id="projects" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-project-diagram"></i> Projects Management</h2>
+                    <p>Manage your portfolio projects and showcase your work</p>
+                    <button class="btn btn-primary" onclick="openProjectModal()">
+                        <i class="fas fa-plus"></i> Add New Project
+                    </button>
+                </div>
+                
+                <div class="items-list" id="projectsList">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading projects...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Tab -->
+            <div id="achievements" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-trophy"></i> Achievements Management</h2>
+                    <p>Manage your awards, certifications, and achievements</p>
+                    <button class="btn btn-primary" onclick="openAchievementModal()">
+                        <i class="fas fa-plus"></i> Add New Achievement
+                    </button>
+                </div>
+                
+                <div class="items-list" id="achievementsList">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading achievements...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technologies Tab -->
+            <div id="technologies" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-code"></i> Technologies Management</h2>
+                    <p>Manage your skills and technologies stack</p>
+                    <button class="btn btn-primary" onclick="openTechnologyModal()">
+                        <i class="fas fa-plus"></i> Add New Technology
+                    </button>
+                </div>
+                
+                <div class="tech-grid" id="technologiesList">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> Loading technologies...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include Modals -->
+    {% include 'admin/modals/experience_modal.html' %}
+    {% include 'admin/modals/project_modal.html' %}
+    {% include 'admin/modals/technology_modal.html' %}
+    {% include 'admin/modals/education_modal.html' %}
+    {% include 'admin/modals/achievement_modal.html' %}
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

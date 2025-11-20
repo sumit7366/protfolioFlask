@@ -1,0 +1,40 @@
+<div class="modal" id="technologyModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="technologyModalTitle">Add Technology</h3>
+        <form id="technologyForm" class="admin-form">
+            <input type="hidden" name="id" value="">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Technology Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" name="category" placeholder="e.g., Frontend, Backend, Database">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="icon">Icon Class (Font Awesome)</label>
+                    <input type="text" id="icon" name="icon" placeholder="e.g., fab fa-python">
+                </div>
+                <div class="form-group">
+                    <label for="proficiency">Proficiency (1-5)</label>
+                    <select id="proficiency" name="proficiency">
+                        <option value="1">1 - Beginner</option>
+                        <option value="2">2 - Intermediate</option>
+                        <option value="3" selected>3 - Proficient</option>
+                        <option value="4">4 - Advanced</option>
+                        <option value="5">5 - Expert</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="order_index">Order Index</label>
+                <input type="number" id="order_index" name="order_index" value="0">
+            </div>
+            <button type="submit" class="btn btn-success">Save Technology</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="modal" id="educationModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="educationModalTitle">Add Education</h3>
+        <form id="educationForm" class="admin-form">
+            <input type="hidden" name="id" value="">
+            <div class="form-group">
+                <label for="institution">Institution</label>
+                <input type="text" id="institution" name="institution" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="degree">Degree</label>
+                    <input type="text" id="degree" name="degree" required>
+                </div>
+                <div class="form-group">
+                    <label for="field">Field of Study</label>
+                    <input type="text" id="field" name="field">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="start_date">Start Date</label>
+                    <input type="text" id="start_date" name="start_date" placeholder="e.g., Sep 2018">
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date</label>
+                    <input type="text" id="end_date" name="end_date" placeholder="e.g., May 2022 or Present">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="current" name="current"> Currently Studying
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Additional information about your education..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save Education</button>
+        </form>
+    </div>
+</div>

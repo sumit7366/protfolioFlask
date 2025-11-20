@@ -1,0 +1,31 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="copyright">
+
+
+
+            <p>&copy; 2024 <span class="admin-access-name">
+                    
+                    {% if profile %}
+                    {{ profile.name }}
+                    {% else %}
+                    YourName
+                    {% endif %}
+                   
+                </span>. All rights reserved.</p>
+
+        </div>
+
+        <div class="footer-actions">
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+            </div>
+            <a href="/admin/login" class="admin-btn">
+                 
+            </a>
+        </div>
+    </div>
+</footer>

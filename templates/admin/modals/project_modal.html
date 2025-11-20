@@ -1,0 +1,43 @@
+<div class="modal" id="projectModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="projectModalTitle">Add Project</h3>
+        <form id="projectForm" class="admin-form">
+            <input type="hidden" name="id" value="">
+            <div class="form-group">
+                <label for="title">Project Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="technologies">Technologies (comma separated)</label>
+                <input type="text" id="technologies" name="technologies" placeholder="e.g., Python, Flask, JavaScript">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="project_url">Live Demo URL</label>
+                    <input type="url" id="project_url" name="project_url">
+                </div>
+                <div class="form-group">
+                    <label for="github_url">GitHub URL</label>
+                    <input type="url" id="github_url" name="github_url">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="order_index">Order Index</label>
+                    <input type="number" id="order_index" name="order_index" value="0">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="featured" name="featured"> Featured Project
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Save Project</button>
+        </form>
+    </div>
+</div>
